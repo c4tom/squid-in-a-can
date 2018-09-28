@@ -49,8 +49,10 @@ def main():
     squid_conf_entries = []
     squid_conf_entries.append('http_port 3129 intercept')
     squid_conf_entries.append('maximum_object_size %s MB' % max_object_size)
-    squid_conf_entries.append('cache_dir ufs /var/cache/squid3 %s 16 256' %
-                              disk_cache_size)
+    squid_conf_entries.append('cache_dir ufs /var/cache/squid3 %s 16 256' % disk_cache_size)
+    squid_conf_entries.append('visible_hostname squid-proxy')
+    squid_conf_entries.append('dns_nameservers 1.1.1.1')
+
 
     with open("/etc/squid3/squid.conf", 'w') as conf_fh:
 

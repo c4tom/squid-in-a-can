@@ -1,6 +1,10 @@
-FROM debian:jessie
+FROM debian:8.11-slim
+
+RUN cat /etc/apt/sources.list | \
+    sed '1s#.*#deb http://ftp.br.debian.org/debian jessie main contrib non-free#' > /etc/apt/sources.list.new \
+    && cat /etc/apt/sources.list.new > /etc/apt/sources.list
 RUN apt-get -q update && \
-    apt-get -qy --no-install-recommends install python squid3 curl && \
+    apt-get -qy --no-install-recommends install python squid3 curl vim && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN sed -i "s/^#acl localnet/acl localnet/" /etc/squid3/squid.conf
@@ -12,7 +16,10 @@ RUN curl -sL --insecure -o /bin/dumb-init https://github.com/Yelp/dumb-init/rele
 RUN chmod +x /bin/dumb-init
 ADD deploy_squid.py /tmp/deploy_squid.py
 
+EXPOSE 3128
+
 ENTRYPOINT ["/bin/dumb-init"]
 
 # Use unbuffered IO so output displays in docker-compose
 CMD ["python", "-u", "/tmp/deploy_squid.py"]
+

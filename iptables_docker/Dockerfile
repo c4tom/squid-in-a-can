@@ -1,4 +1,8 @@
-FROM debian:jessie
+FROM debian:8.11-slim
+RUN cat /etc/apt/sources.list | \
+    sed '1s#.*#deb http://ftp.br.debian.org/debian jessie main contrib non-free#' > /etc/apt/sources.list.new \
+    && cat /etc/apt/sources.list.new > /etc/apt/sources.list
+
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-install-recommends iptables python curl && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \

@@ -1,16 +1,28 @@
 squid:
     build: squid/.
+    container_name: 'squid-proxy'
+    hostname: 'squid-proxy'
+    # nao precisa exposicao de portas, porque net:host
+    #ports: 
+    #   - '3128:3128'
     environment:
-        - "DISK_CACHE_SIZE=5000"
-        - "MAX_CACHE_OBJECT=1000"
-        # - "SQUID_DIRECTIVES_ONLY=true"
-        # - "SQUID_DIRECTIVES='refresh_pattern . 0 0 1 refresh-ims'"
+        - "DISK_CACHE_SIZE=10000"
+        - "MAX_CACHE_OBJECT=2500"
+        #- "SQUID_DIRECTIVES_ONLY=true"
+        #- "SQUID_DIRECTIVES='refresh_pattern . 0 0 1 refresh-ims'"
     net: "host"
-    ## Uncomment and update /path/to/cache
-    # volumes:
-    #   - /path/to/cache:/var/cache/squid3
+    volumes:
+       - /home/squid/cache:/var/cache/squid3
+       - /home/squid/logs:/var/log/squid3
+    restart: always
+    tty: true
+    stdin_open: true
+    privileged: false
 
 tproxy:
     build: iptables_docker/.
+    container_name: 'transparent_proxy'
+    hostname: 'iptables-proxy'
     net: "host"
     privileged: true
+    restart: always
