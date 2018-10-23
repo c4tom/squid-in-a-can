@@ -12,8 +12,8 @@ squid:
         #- "SQUID_DIRECTIVES='refresh_pattern . 0 0 1 refresh-ims'"
     net: "host"
     volumes:
-       - /home/squid/cache:/var/cache/squid3
-       - /home/squid/logs:/var/log/squid3
+       - /home/docker/squid/cache:/var/cache/squid3
+       - /home/docker/squid/logs:/var/log/squid3
     restart: always
     tty: true
     stdin_open: true

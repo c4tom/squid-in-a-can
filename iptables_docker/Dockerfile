@@ -1,4 +1,4 @@
-FROM debian:8.11-slim
+FROM debian:jessie
 RUN cat /etc/apt/sources.list | \
     sed '1s#.*#deb http://ftp.br.debian.org/debian jessie main contrib non-free#' > /etc/apt/sources.list.new \
     && cat /etc/apt/sources.list.new > /etc/apt/sources.list
